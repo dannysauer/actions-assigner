@@ -26,8 +26,8 @@ const assign = async (octokit) => {
   try {
     const { owner, repo, number } = context.issue
     await octokit.issues.addAssignees({
-      owner: owner,
-      repo: repo,
+      owner,
+      repo,
       issue_number: number,
       assignees: [context.actor]
     })
@@ -47,8 +47,8 @@ const review = async (octokit, reviewers, teamReviewers) => {
   try {
     const { owner, repo } = context.issue
     await octokit.pulls.requestReviewers({
-      owner: owner,
-      repo: repo,
+      owner,
+      repo,
       pull_number: context.payload.pull_request.number,
       reviewers: reviewers.split(',').filter(x => x !== context.actor) || undefined,
       team_reviewers: teamReviewers.split(',') || undefined
