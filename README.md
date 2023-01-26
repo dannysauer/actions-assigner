@@ -1,9 +1,9 @@
 # dannysauer/actions-assigner
-minor update from @delivery-much/actions-assigner
+Forked from @delivery-much/actions-assigner
 
-Assign and request review functions are defined in [github.js](src/github.js).
+Request review functions are defined in [github.js](src/github.js).
 
-If `reviewers` or `team-reviewers` are not set, the Action will only auto assign the PR.
+If `reviewers` and `team-reviewers` are both not set, the Action fails
 
 ## Inputs
 
@@ -11,7 +11,7 @@ If `reviewers` or `team-reviewers` are not set, the Action will only auto assign
 | --- | --- | --- |
 | `token` | **Required if using team-reviewers** A `repo` scoped personal access token. [Why](https://github.com/peter-evans/create-pull-request/issues/155#issuecomment-611904487). [Create one here](https://github.com/settings/tokens/new). | ${{ secrets.GH_TOKEN }} |
 | `reviewers` | GitHub usernames, separated by comma | user1,user2,user3
-| `team-reviewers` | Organization team names, separated by comma | backend
+| `team-reviewers` | Organization team names, separated by comma | team1,team2
 
 ## Example workflow
 

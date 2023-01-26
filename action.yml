@@ -1,5 +1,5 @@
-name: 'Auto assign PR (dannysauer fork)'
-description: 'Auto assign PR and request review'
+name: 'Request reviewers on PR'
+description: 'Request review on PR'
 author: 'dannysauer'
 branding:
   icon: 'code'
