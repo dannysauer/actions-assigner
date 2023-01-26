@@ -10,19 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/delivery-much/actions-assigner.git"
+    "url": "git+https://github.com/dannysauer/actions-assigner.git"
   },
   "keywords": [
     "GitHub",
     "Actions",
     "JavaScript"
   ],
-  "author": "@delivery-much",
+  "author": "dannysauer",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/delivery-much/actions-assigner/issues"
+    "url": "https://github.com/dannysauer/actions-assigner/issues"
   },
-  "homepage": "https://github.com/delivery-much/actions-assigner#readme",
+  "homepage": "https://github.com/dannysauer/actions-assigner#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/github": "^4.0.0",

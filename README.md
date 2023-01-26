@@ -1,4 +1,5 @@
-# @delivery-much/actions-assigner
+# dannysauer/actions-assigner
+minor update from @delivery-much/actions-assigner
 
 Assign and request review functions are defined in [github.js](src/github.js).
 
