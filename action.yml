@@ -1,4 +1,4 @@
-name: 'Auto assign PR and request review'
+name: 'Auto assign PR (dannysauer fork)'
 description: 'Auto assign PR and request review'
 author: 'dannysauer'
 branding:
@@ -7,7 +7,7 @@ branding:
 inputs:
   token:
     description: 'GitHub token'
-    default: ${{ github.token }}
+    default: ${{ secrets.GITHUB_TOKEN }}
     required: false
   reviewers:
     description: 'GitHub usernames'
