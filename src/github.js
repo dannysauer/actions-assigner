@@ -1,4 +1,6 @@
-const { context, getOctokit } = require('@actions/github')
+const github = require('@actions/github')
+const core = require('@actions/core')
+// const util = require('util')
 
 /**
  * Creates Octokit instance and run assign and review.
@@ -8,49 +10,32 @@ const { context, getOctokit } = require('@actions/github')
  * @param {string} teamReviewers - GitHub teams
  */
 const handle = async (token, reviewers, teamReviewers) => {
-  if (/^pull_request(_target)?$/.test(context.eventName)) {
-    const octokit = getOctokit(token)
-    await assign(octokit)
-    if (reviewers || teamReviewers) await review(octokit, reviewers, teamReviewers)
-  } else {
+  const context = github.context
+  if (!/^pull_request(_target)?$/.test(context.eventName)) {
     throw new Error('Sorry, this Action only works with pull requests.')
   }
-}
+  core.info(`Event type is supported: ${context.eventName}`)
 
-/**
- * Auto assign pull requests.
- *
- * @param {Octokit} octokit - Octokit instance
- */
-const assign = async (octokit) => {
-  try {
-    const { owner, repo, number } = context.issue
-    await octokit.issues.addAssignees({
-      owner: owner,
-      repo: repo,
-      issue_number: number,
-      assignees: [context.actor]
-    })
-  } catch (err) {
-    throw new Error(`Couldn't assign pull request.\n  Error: ${err}`)
+  if (!(reviewers || teamReviewers)) {
+    throw new Error('Must specify at least one of reviewers or teamReviewers.')
   }
-}
 
-/**
- * Request PR review to given reviewers.
- *
- * @param {Octokit} octokit - Octokit instance
- * @param {string} reviewers - GitHub usernames
- * @param {string} teamReviewers - GitHub teams
- */
-const review = async (octokit, reviewers, teamReviewers) => {
+  // filter out PR opener; can't self-review
+  const filteredReviewers = reviewers
+    .split(',')
+    .filter(x => x !== context.actor) || undefined
+  core.info('Reviewers: ' + filteredReviewers.join(','))
+  core.info(`Team reviewers: ${teamReviewers}`)
+
+  const octokit = github.getOctokit(token)
+  const { owner, repo } = context.repo
+  // core.info(util.inspect(octokit, false, null, true))
   try {
-    const { owner, repo } = context.issue
-    await octokit.pulls.requestReviewers({
-      owner: owner,
-      repo: repo,
+    await octokit.rest.pulls.requestReviewers({
+      owner,
+      repo,
       pull_number: context.payload.pull_request.number,
-      reviewers: reviewers.split(',').filter(x => x !== context.actor) || undefined,
+      reviewers: filteredReviewers,
       team_reviewers: teamReviewers.split(',') || undefined
     })
   } catch (err) {
